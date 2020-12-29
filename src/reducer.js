@@ -11,69 +11,23 @@ const initialStateC = {
 };
 
 function removeCardFromBooster(pack, itemID) {
-  return pack.filter((id) => id != itemID);
-}
-
-//read in JSON, and filter essential information for each card
-async function getJSON(path) {
-  let cardInfo = [];
-  let data = await fetch(path)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (d) {
-      return d.data;
-    });
-
-  for (let x of data) {
-    cardInfo.push({
-      id: x.mtgo_id,
-      name: x.name,
-      imagelink:
-        typeof x.image_uris != "undefined" ? x.image_uris["png"] : null,
-      mana_cost: x.mana_cost,
-      cmc: x.cmc,
-      card_faces: x.card_faces,
-      type: x.type_line,
-      oracle_text: x.oracle_text,
-      power: x.power,
-      toughness: x.toughness,
-      rarity: x.rarity,
-    });
-  }
-
-  //quick workaround for dual sided cards, just use their frontside from the nested card_faces object
-  for (let y of cardInfo) {
-    if (typeof y.imagelink == null) {
-      y.name = y.card_faces[0]["name"];
-      y.mana_cost = y.card_faces[0]["mana_cost"];
-      y.type = y.card_faces[0]["type"];
-      y.oracle_text = y.card_faces[0]["oracle_text"];
-      y.power = y.card_faces[0]["power"];
-      y.toughness = y.card_faces[0]["toughness"];
-      y.imagelink = y.card_faces[0]["image_uris"]["png"];
-    }
-  }
-
-  console.log(cardInfo);
-
-  return cardInfo;
+  return pack.filter((id) => id !== itemID);
 }
 
 function partitionSetIntoCommons(set) {
   let commons = [...set];
-  return commons.filter((card) => card.rarity == "common");
+  return commons.filter((card) => card.rarity === "common");
 }
 
 function partitionSetIntoUncommons(set) {
   let uncommons = [...set];
-  return uncommons.filter((card) => card.rarity == "uncommon");
+  return uncommons.filter((card) => card.rarity === "uncommon");
 }
 
 function partitionSetIntoRareMythic(set) {
   let raremythic = [...set];
   return raremythic.filter(
-    (card) => card.type == "rare" || card.type == "mythic"
+    (card) => card.rarity === "rare" || card.rarity === "mythic"
   );
 }
 
@@ -85,7 +39,7 @@ function pickCardFromBooster(pack, itemID) {
 }
 
 function shouldIncrementRound(pack) {
-  if (pack.length == 1) {
+  if (pack.length === 1) {
     return true;
   }
   return false;
@@ -120,7 +74,7 @@ function playerPickOdd(draftPacks, itemID, round) {
   let pack6 = AIpickCardFromBooster(draftPacks[6]);
   let pack7 = AIpickCardFromBooster(draftPacks[7]);
 
-  if (pack0.length == 0 && round < 3) {
+  if (pack0.length === 0 && round < 3) {
     return createEightFakeBoosters();
   }
 
@@ -137,7 +91,7 @@ function playerPickEven(draftPacks, itemID, round) {
   let pack6 = AIpickCardFromBooster(draftPacks[6]);
   let pack7 = AIpickCardFromBooster(draftPacks[7]);
 
-  if (pack0.length == 0 && round < 3) {
+  if (pack0.length === 0 && round < 3) {
     return createEightFakeBoosters();
   }
 
@@ -147,8 +101,12 @@ function playerPickEven(draftPacks, itemID, round) {
 export default function appReducer(state = initialStateC, action) {
   switch (action.type) {
     case "gamecards/JSONLOADED": {
+      console.log(action.payload);
       return {
         ...state,
+        commons: partitionSetIntoCommons(action.payload),
+        uncommons: partitionSetIntoUncommons(action.payload),
+        rareANDmythics: partitionSetIntoRareMythic(action.payload),
         allCards: action.payload,
       };
     }
@@ -158,18 +116,17 @@ export default function appReducer(state = initialStateC, action) {
         gameBoosters: createEightFakeBoosters(),
         progressValue: 0,
         round: 1,
-        cardSetFromAPI: getJSON(
-          "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints"
-        ),
       };
     }
 
     case "gamecards/pickDraftCard": {
-      console.log(state.allCards);
+      console.log(state.commons);
+      console.log(state.uncommons);
+      console.log(state.rareANDmythics);
       return {
         ...state,
         gameBoosters:
-          state.round % 2 == 1
+          state.round % 2 === 1
             ? playerPickOdd(state.gameBoosters, action.payload, state.round)
             : playerPickEven(state.gameBoosters, action.payload, state.round),
 
