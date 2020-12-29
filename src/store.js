@@ -25,24 +25,47 @@ async function F(data) {
 
 const parseCards = (data) => {
   let cards = [];
+
   for (let x of data.data) {
-    cards.push({
-      id: x.mtgo_id,
-      name: x.name,
-      imagelink:
-        typeof x.image_uris != "undefined" ? x.image_uris["png"] : null,
-      mana_cost: x.mana_cost,
-      cmc: x.cmc,
-      card_faces: x.card_faces,
-      type: x.type_line,
-      oracle_text: x.oracle_text,
-      power: x.power,
-      toughness: x.toughness,
-      rarity: x.rarity,
-    });
+    if (x.booster === true) {
+      if (!x.type_line.startsWith("Basic Land")) {
+        cards.push({
+          id: x.mtgo_id,
+          name: x.name,
+          imagelink:
+            typeof x.image_uris != "undefined" ? x.image_uris["png"] : null,
+          mana_cost: x.mana_cost,
+          cmc: x.cmc,
+          card_faces: x.card_faces,
+          type: x.type_line,
+          oracle_text: x.oracle_text,
+          power: x.power,
+          toughness: x.toughness,
+          rarity: x.rarity,
+        });
+      } else {
+        if (x.full_art === true) {
+          console.log(x);
+          cards.push({
+            id: x.mtgo_id,
+            name: x.name,
+            imagelink:
+              typeof x.image_uris != "undefined" ? x.image_uris["png"] : null,
+            mana_cost: x.mana_cost,
+            cmc: x.cmc,
+            card_faces: x.card_faces,
+            type: x.type_line,
+            oracle_text: x.oracle_text,
+            power: x.power,
+            toughness: x.toughness,
+            rarity: x.rarity,
+          });
+        }
+      }
+    }
   }
   for (let y of cards) {
-    if (typeof y.imagelink == null) {
+    if (typeof y.imagelink === null) {
       y.name = y.card_faces[0]["name"];
       y.mana_cost = y.card_faces[0]["mana_cost"];
       y.type = y.card_faces[0]["type"];
@@ -52,6 +75,7 @@ const parseCards = (data) => {
       y.imagelink = y.card_faces[0]["image_uris"]["png"];
     }
   }
+
   return cards;
 };
 

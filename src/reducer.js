@@ -7,7 +7,8 @@ const initialStateC = {
   allCards: null,
   commons: null,
   uncommons: null,
-  rareANDmythics: null,
+  rares: null,
+  mythics: null,
 };
 
 function removeCardFromBooster(pack, itemID) {
@@ -24,11 +25,14 @@ function partitionSetIntoUncommons(set) {
   return uncommons.filter((card) => card.rarity === "uncommon");
 }
 
-function partitionSetIntoRareMythic(set) {
-  let raremythic = [...set];
-  return raremythic.filter(
-    (card) => card.rarity === "rare" || card.rarity === "mythic"
-  );
+function partitionSetIntoRares(set) {
+  let rares = [...set];
+  return rares.filter((card) => card.rarity === "rare");
+}
+
+function partitionSetIntoMythics(set) {
+  let mythics = [...set];
+  return mythics.filter((card) => card.rarity === "mythic");
 }
 
 //1 rare/mythic, 3 uncommons, 10 commons
@@ -106,7 +110,8 @@ export default function appReducer(state = initialStateC, action) {
         ...state,
         commons: partitionSetIntoCommons(action.payload),
         uncommons: partitionSetIntoUncommons(action.payload),
-        rareANDmythics: partitionSetIntoRareMythic(action.payload),
+        rares: partitionSetIntoRares(action.payload),
+        mythics: partitionSetIntoMythics(action.payload),
         allCards: action.payload,
       };
     }
@@ -122,7 +127,8 @@ export default function appReducer(state = initialStateC, action) {
     case "gamecards/pickDraftCard": {
       console.log(state.commons);
       console.log(state.uncommons);
-      console.log(state.rareANDmythics);
+      console.log(state.rares);
+      console.log(state.mythics);
       return {
         ...state,
         gameBoosters:
