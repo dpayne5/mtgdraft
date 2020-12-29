@@ -4,6 +4,7 @@ const initialStateC = {
   progressValue: 0,
   round: 1,
   cardSetFromAPI: null,
+  allCards: null,
   commons: null,
   uncommons: null,
   rareANDmythics: null,
@@ -145,6 +146,12 @@ function playerPickEven(draftPacks, itemID, round) {
 
 export default function appReducer(state = initialStateC, action) {
   switch (action.type) {
+    case "gamecards/JSONLOADED": {
+      return {
+        ...state,
+        allCards: action.payload,
+      };
+    }
     case "gamecards/generateFakeSet": {
       return {
         ...state,
@@ -158,8 +165,7 @@ export default function appReducer(state = initialStateC, action) {
     }
 
     case "gamecards/pickDraftCard": {
-      console.log(state.round);
-      console.log(state.cardSetFromAPI);
+      console.log(state.allCards);
       return {
         ...state,
         gameBoosters:
