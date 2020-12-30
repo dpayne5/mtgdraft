@@ -33,7 +33,7 @@ const parseCards = (data) => {
           id: x.mtgo_id,
           name: x.name,
           imagelink:
-            typeof x.image_uris != "undefined" ? x.image_uris["png"] : null,
+            typeof x.image_uris != "undefined" ? x.image_uris["normal"] : null,
           mana_cost: x.mana_cost,
           cmc: x.cmc,
           card_faces: x.card_faces,
@@ -45,12 +45,13 @@ const parseCards = (data) => {
         });
       } else {
         if (x.full_art === true) {
-          console.log(x);
           cards.push({
             id: x.mtgo_id,
             name: x.name,
             imagelink:
-              typeof x.image_uris != "undefined" ? x.image_uris["png"] : null,
+              typeof x.image_uris != "undefined"
+                ? x.image_uris["normal"]
+                : null,
             mana_cost: x.mana_cost,
             cmc: x.cmc,
             card_faces: x.card_faces,

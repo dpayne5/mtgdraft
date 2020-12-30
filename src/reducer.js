@@ -11,6 +11,8 @@ const initialStateC = {
   mythics: null,
 };
 
+//game functions
+
 function removeCardFromBooster(pack, itemID) {
   return pack.filter((id) => id !== itemID);
 }
@@ -36,7 +38,43 @@ function partitionSetIntoMythics(set) {
 }
 
 //1 rare/mythic, 3 uncommons, 10 commons
-function createBoosterFromSet(set) {}
+function createBoosterFromSet(commons, uncommons, rares, mythics) {
+  let booster = [];
+
+  while (booster.length < 10) {
+    const randomCard = commons[Math.floor(Math.random() * commons.length)];
+    let isIn = false;
+    for (let x of booster) {
+      if (x.name === randomCard.name) {
+        isIn = true;
+      }
+    }
+    if (!isIn) {
+      booster.push(randomCard);
+    }
+  }
+
+  while (booster.length < 13) {
+    const randomCard = uncommons[Math.floor(Math.random() * uncommons.length)];
+    let isIn = false;
+    for (let x of booster) {
+      if (x.name === randomCard.name) {
+        isIn = true;
+      }
+    }
+    if (!isIn) {
+      booster.push(randomCard);
+    }
+  }
+
+  let rareOrMythic = Math.floor(Math.random() * Math.floor(9));
+  if (rareOrMythic === 8) {
+    booster.push(rares[Math.floor(Math.random() * rares.length)]);
+  } else {
+    booster.push(mythics[Math.floor(Math.random() * mythics.length)]);
+  }
+  return booster;
+}
 
 function pickCardFromBooster(pack, itemID) {
   return pack[pack.indexOf(itemID)];
@@ -57,6 +95,14 @@ function AIpickCardFromBooster(pack) {
   return copyPack;
 }
 
+function createEightBoosters(commons, uncommons, rares, mythics) {
+  let gameboosters = [];
+  for (let i = 0; i < 8; i++) {
+    gameboosters.push(createBoosterFromSet(commons, uncommons, rares, mythics));
+  }
+  return gameboosters;
+}
+
 function createEightFakeBoosters() {
   let fakeSet = [];
   for (let i = 0; i < 8; i++) {
@@ -68,7 +114,15 @@ function createEightFakeBoosters() {
 
 /* Takes in the draft packs for round 1 and 3, picks the player card, makes AI picks,
    and rotates packs LEFT */
-function playerPickOdd(draftPacks, itemID, round) {
+function playerPickOdd(
+  draftPacks,
+  itemID,
+  round,
+  commons,
+  uncommons,
+  rares,
+  mythics
+) {
   let pack0 = removeCardFromBooster(draftPacks[0], itemID);
   let pack1 = AIpickCardFromBooster(draftPacks[1]);
   let pack2 = AIpickCardFromBooster(draftPacks[2]);
@@ -79,13 +133,21 @@ function playerPickOdd(draftPacks, itemID, round) {
   let pack7 = AIpickCardFromBooster(draftPacks[7]);
 
   if (pack0.length === 0 && round < 3) {
-    return createEightFakeBoosters();
+    return createEightBoosters(commons, uncommons, rares, mythics);
   }
 
   return [pack1, pack2, pack3, pack4, pack5, pack6, pack7, pack0];
 }
 
-function playerPickEven(draftPacks, itemID, round) {
+function playerPickEven(
+  draftPacks,
+  itemID,
+  round,
+  commons,
+  uncommons,
+  rares,
+  mythics
+) {
   let pack0 = removeCardFromBooster(draftPacks[0], itemID);
   let pack1 = AIpickCardFromBooster(draftPacks[1]);
   let pack2 = AIpickCardFromBooster(draftPacks[2]);
@@ -96,7 +158,7 @@ function playerPickEven(draftPacks, itemID, round) {
   let pack7 = AIpickCardFromBooster(draftPacks[7]);
 
   if (pack0.length === 0 && round < 3) {
-    return createEightFakeBoosters();
+    return createEightBoosters(commons, uncommons, rares, mythics);
   }
 
   return [pack7, pack0, pack1, pack2, pack3, pack4, pack5, pack6];
@@ -106,35 +168,58 @@ export default function appReducer(state = initialStateC, action) {
   switch (action.type) {
     case "gamecards/JSONLOADED": {
       console.log(action.payload);
+      let _commons = partitionSetIntoCommons(action.payload);
+      let _uncommons = partitionSetIntoUncommons(action.payload);
+      let _rares = partitionSetIntoRares(action.payload);
+      let _mythics = partitionSetIntoMythics(action.payload);
       return {
         ...state,
-        commons: partitionSetIntoCommons(action.payload),
-        uncommons: partitionSetIntoUncommons(action.payload),
-        rares: partitionSetIntoRares(action.payload),
-        mythics: partitionSetIntoMythics(action.payload),
+        commons: _commons,
+        uncommons: _uncommons,
+        rares: _rares,
+        mythics: _mythics,
+        gameBoosters: createEightBoosters(
+          _commons,
+          _uncommons,
+          _rares,
+          _mythics
+        ),
+
         allCards: action.payload,
       };
     }
     case "gamecards/generateFakeSet": {
       return {
         ...state,
-        gameBoosters: createEightFakeBoosters(),
+        // gameBoosters: createEightFakeBoosters(),
         progressValue: 0,
         round: 1,
       };
     }
 
     case "gamecards/pickDraftCard": {
-      console.log(state.commons);
-      console.log(state.uncommons);
-      console.log(state.rares);
-      console.log(state.mythics);
       return {
         ...state,
         gameBoosters:
           state.round % 2 === 1
-            ? playerPickOdd(state.gameBoosters, action.payload, state.round)
-            : playerPickEven(state.gameBoosters, action.payload, state.round),
+            ? playerPickOdd(
+                state.gameBoosters,
+                action.payload,
+                state.round,
+                state.commons,
+                state.uncommons,
+                state.rares,
+                state.mythics
+              )
+            : playerPickEven(
+                state.gameBoosters,
+                action.payload,
+                state.round,
+                state.commons,
+                state.uncommons,
+                state.rares,
+                state.mythics
+              ),
 
         progressValue:
           state.progressValue + 2.22 > 99 ? 100 : state.progressValue + 2.22,
