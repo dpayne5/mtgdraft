@@ -5,6 +5,7 @@ const initialStateC = {
   round: 1,
   cardSetFromAPI: null,
   allCards: null,
+  lands: null,
   commons: null,
   uncommons: null,
   rares: null,
@@ -17,9 +18,34 @@ function removeCardFromBooster(pack, itemID) {
   return pack.filter((id) => id !== itemID);
 }
 
+function partitionBasicLands(set) {
+  let basiclands = [...set];
+
+  const isLand = (card) => {
+    return (
+      card.name == "Plains" ||
+      card.name == "Island" ||
+      card.name == "Mountain" ||
+      card.name == "Swamp" ||
+      card.name == "Forest"
+    );
+  };
+
+  return basiclands.filter((card) => isLand(card));
+}
+
 function partitionSetIntoCommons(set) {
   let commons = [...set];
-  return commons.filter((card) => card.rarity === "common");
+  const isLand = (card) => {
+    return (
+      card.name == "Plains" ||
+      card.name == "Island" ||
+      card.name == "Mountain" ||
+      card.name == "Swamp" ||
+      card.name == "Forest"
+    );
+  };
+  return commons.filter((card) => card.rarity === "common" && !isLand(card));
 }
 
 function partitionSetIntoUncommons(set) {
@@ -38,23 +64,17 @@ function partitionSetIntoMythics(set) {
 }
 
 //1 rare/mythic, 3 uncommons, 10 commons
-function createBoosterFromSet(commons, uncommons, rares, mythics) {
+function createBoosterFromSet(lands, commons, uncommons, rares, mythics) {
   let booster = [];
 
-  while (booster.length < 10) {
-    const randomCard = commons[Math.floor(Math.random() * commons.length)];
-    let isIn = false;
-    for (let x of booster) {
-      if (x.name === randomCard.name) {
-        isIn = true;
-      }
-    }
-    if (!isIn) {
-      booster.push(randomCard);
-    }
+  let rareOrMythic = Math.floor(Math.random() * Math.floor(9));
+  if (rareOrMythic === 8) {
+    booster.push(rares[Math.floor(Math.random() * rares.length)]);
+  } else {
+    booster.push(mythics[Math.floor(Math.random() * mythics.length)]);
   }
 
-  while (booster.length < 13) {
+  while (booster.length < 4) {
     const randomCard = uncommons[Math.floor(Math.random() * uncommons.length)];
     let isIn = false;
     for (let x of booster) {
@@ -67,12 +87,21 @@ function createBoosterFromSet(commons, uncommons, rares, mythics) {
     }
   }
 
-  let rareOrMythic = Math.floor(Math.random() * Math.floor(9));
-  if (rareOrMythic === 8) {
-    booster.push(rares[Math.floor(Math.random() * rares.length)]);
-  } else {
-    booster.push(mythics[Math.floor(Math.random() * mythics.length)]);
+  while (booster.length < 14) {
+    const randomCard = commons[Math.floor(Math.random() * commons.length)];
+    console.log(randomCard);
+    let isIn = false;
+    for (let x of booster) {
+      if (x.name === randomCard.name) {
+        isIn = true;
+      }
+    }
+    if (!isIn) {
+      booster.push(randomCard);
+    }
   }
+
+  booster.push(lands[Math.floor(Math.random() * lands.length)]);
   return booster;
 }
 
@@ -95,10 +124,12 @@ function AIpickCardFromBooster(pack) {
   return copyPack;
 }
 
-function createEightBoosters(commons, uncommons, rares, mythics) {
+function createEightBoosters(lands, commons, uncommons, rares, mythics) {
   let gameboosters = [];
   for (let i = 0; i < 8; i++) {
-    gameboosters.push(createBoosterFromSet(commons, uncommons, rares, mythics));
+    gameboosters.push(
+      createBoosterFromSet(lands, commons, uncommons, rares, mythics)
+    );
   }
   return gameboosters;
 }
@@ -118,6 +149,7 @@ function playerPickOdd(
   draftPacks,
   itemID,
   round,
+  lands,
   commons,
   uncommons,
   rares,
@@ -133,7 +165,7 @@ function playerPickOdd(
   let pack7 = AIpickCardFromBooster(draftPacks[7]);
 
   if (pack0.length === 0 && round < 3) {
-    return createEightBoosters(commons, uncommons, rares, mythics);
+    return createEightBoosters(lands, commons, uncommons, rares, mythics);
   }
 
   return [pack1, pack2, pack3, pack4, pack5, pack6, pack7, pack0];
@@ -143,6 +175,7 @@ function playerPickEven(
   draftPacks,
   itemID,
   round,
+  lands,
   commons,
   uncommons,
   rares,
@@ -158,7 +191,7 @@ function playerPickEven(
   let pack7 = AIpickCardFromBooster(draftPacks[7]);
 
   if (pack0.length === 0 && round < 3) {
-    return createEightBoosters(commons, uncommons, rares, mythics);
+    return createEightBoosters(lands, commons, uncommons, rares, mythics);
   }
 
   return [pack7, pack0, pack1, pack2, pack3, pack4, pack5, pack6];
@@ -167,18 +200,20 @@ function playerPickEven(
 export default function appReducer(state = initialStateC, action) {
   switch (action.type) {
     case "gamecards/JSONLOADED": {
-      console.log(action.payload);
       let _commons = partitionSetIntoCommons(action.payload);
       let _uncommons = partitionSetIntoUncommons(action.payload);
       let _rares = partitionSetIntoRares(action.payload);
       let _mythics = partitionSetIntoMythics(action.payload);
+      let _lands = partitionBasicLands(action.payload);
       return {
         ...state,
+        lands: _lands,
         commons: _commons,
         uncommons: _uncommons,
         rares: _rares,
         mythics: _mythics,
         gameBoosters: createEightBoosters(
+          _lands,
           _commons,
           _uncommons,
           _rares,
@@ -206,6 +241,7 @@ export default function appReducer(state = initialStateC, action) {
                 state.gameBoosters,
                 action.payload,
                 state.round,
+                state.lands,
                 state.commons,
                 state.uncommons,
                 state.rares,
@@ -215,6 +251,7 @@ export default function appReducer(state = initialStateC, action) {
                 state.gameBoosters,
                 action.payload,
                 state.round,
+                state.lands,
                 state.commons,
                 state.uncommons,
                 state.rares,

@@ -66,7 +66,7 @@ const parseCards = (data) => {
     }
   }
   for (let y of cards) {
-    if (typeof y.imagelink === null) {
+    if (y.imagelink == null) {
       y.name = y.card_faces[0]["name"];
       y.mana_cost = y.card_faces[0]["mana_cost"];
       y.type = y.card_faces[0]["type"];
