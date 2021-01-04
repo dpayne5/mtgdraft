@@ -1,6 +1,7 @@
 const initialStateC = {
   gameBoosters: [[]],
-  pickedCards: [],
+  mainboard: [],
+  sideboard: [],
   progressValue: 0,
   round: 1,
   cardSetFromAPI: null,
@@ -235,6 +236,10 @@ export default function appReducer(state = initialStateC, action) {
     case "gamecards/pickDraftCard": {
       return {
         ...state,
+        mainboard: [
+          ...state.mainboard,
+          pickCardFromBooster(state.gameBoosters[0], action.payload),
+        ],
         gameBoosters:
           state.round % 2 === 1
             ? playerPickOdd(

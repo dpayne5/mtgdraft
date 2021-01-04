@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Cp from "./cardPicker.js";
+import PickedViewer from "./pickedViewer.js";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
@@ -192,7 +193,9 @@ const GameSection = (props) => {
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div className="pickedViewer">Item Two</div>
+          <div className="pickedViewer">
+            <PickedViewer />
+          </div>
         </TabPanel>
       </div>
     </div>

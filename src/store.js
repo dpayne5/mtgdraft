@@ -74,6 +74,7 @@ const parseCards = (data) => {
       y.power = y.card_faces[0]["power"];
       y.toughness = y.card_faces[0]["toughness"];
       y.imagelink = y.card_faces[0]["image_uris"]["png"];
+      y.type = y.card_faces[0].type_line;
     }
   }
 
