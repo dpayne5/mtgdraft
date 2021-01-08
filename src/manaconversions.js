@@ -2,24 +2,50 @@ import "mana-font";
 import { Fragment } from "react";
 
 export const oracleCosts = (oracle_text) => {
-  let a = oracle_text.split(/\s/);
-  // console.log(a);
-  let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}/g;
-  let r = [];
+  let totalReturn = [];
+  console.log(oracle_text);
+  let test = oracle_text.split("\n");
+  console.log(test);
 
-  for (let i = 0; i < a.length; i++) {
-    let matches = a[i].match(pattern);
-    if (matches) {
-      for (let m of matches) {
-        // console.log(m);
-        r.push(oracleConversions(m));
+  for (let i = 0; i < test.length; i++) {
+    let a = test[i].split(/\s/);
+    let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}/g;
+    let r = [];
+    for (let i = 0; i < a.length; i++) {
+      let matches = a[i].match(pattern);
+      if (matches) {
+        for (let m of matches) {
+          // console.log(m);
+          r.push(oracleConversions(m));
+        }
+        r.push(" ");
+      } else {
+        r.push(a[i] + " ");
       }
-      r.push(" ");
-    } else {
-      r.push(a[i] + " ");
     }
+    totalReturn.push(<p>{r}</p>);
   }
-  return r;
+  return totalReturn;
+
+  // let a = oracle_text.split(/\s/);
+  // // let a = oracle_text.split(" ");
+  // console.log(a);
+  // let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}/g;
+  // let r = [];
+
+  // for (let i = 0; i < a.length; i++) {
+  //   let matches = a[i].match(pattern);
+  //   if (matches) {
+  //     for (let m of matches) {
+  //       // console.log(m);
+  //       r.push(oracleConversions(m));
+  //     }
+  //     r.push(" ");
+  //   } else {
+  //     r.push(a[i] + " ");
+  //   }
+  // }
+  // return r;
 };
 
 export const readcosts = (mana_costs) => {
@@ -104,8 +130,7 @@ const oracleConversions = (s) => {
       return <i class="ms ms-8 ms-cost ms-shadow"></i>;
     case "9":
       return <i class="ms ms-9 ms-cost ms-shadow"></i>;
-    case [0] == "+":
-      console.log("we here!");
+
     default:
       return s;
   }

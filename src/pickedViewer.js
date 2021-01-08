@@ -75,6 +75,7 @@ const useStyles = makeStyles({
   },
   oracleDiv: {
     width: "70%",
+    fontSize: "90%",
   },
   ptDetails: {
     width: "8%",
@@ -134,6 +135,8 @@ const PickedViewer = (props) => {
               <Typography color="textPrimary" className={classes.oracleDiv}>
                 <React.Fragment>
                   {oracleCosts(val.oracle_text).map((val) => val)}
+                  {/* <p>{"bob"}</p>
+                  <p>{"dobalina"}</p> */}
                 </React.Fragment>
               </Typography>
               <Typography color="textSecondary" className={classes.ptDetails}>
