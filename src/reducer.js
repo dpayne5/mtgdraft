@@ -90,7 +90,6 @@ function createBoosterFromSet(lands, commons, uncommons, rares, mythics) {
 
   while (booster.length < 14) {
     const randomCard = commons[Math.floor(Math.random() * commons.length)];
-    console.log(randomCard);
     let isIn = false;
     for (let x of booster) {
       if (x.name === randomCard.name) {

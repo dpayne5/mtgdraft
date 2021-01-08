@@ -1,8 +1,29 @@
 import "mana-font";
 import { Fragment } from "react";
 
+export const oracleCosts = (oracle_text) => {
+  let a = oracle_text.split(/\s/);
+  // console.log(a);
+  let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}/g;
+  let r = [];
+
+  for (let i = 0; i < a.length; i++) {
+    let matches = a[i].match(pattern);
+    if (matches) {
+      for (let m of matches) {
+        // console.log(m);
+        r.push(oracleConversions(m));
+      }
+      r.push(" ");
+    } else {
+      r.push(a[i] + " ");
+    }
+  }
+  return r;
+};
+
 export const readcosts = (mana_costs) => {
-  let pattern = /\{\d\}|\{\w\}|\+\d|\-\d/g;
+  let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|0:/g;
   let scrycosts = mana_costs.match(pattern);
   let mfcosts = [];
   if (scrycosts == null) {
@@ -22,13 +43,75 @@ export const testOracle = () => {
   //   return <div>{x.join(" ")}</div>;
 };
 
+const oracleConversions = (s) => {
+  //check for loyalty counters before stripping
+
+  if (s[0] !== "{" && s[s.length - 1] === ":") {
+    if (s[0] === "+") {
+      let x = `ms ms-loyalty-up ms-loyalty-${s[1]}`;
+      return <i class={x}></i>;
+    } else if (s[0] !== "0") {
+      let x = `ms ms-loyalty-down ms-loyalty-${s[1]}`;
+      return <i class={x}></i>;
+    } else {
+      let x = "ms ms-loyalty-zero ms-loyalty-0";
+      return <i class={x}></i>;
+    }
+  }
+
+  let stripped = s.substring(1, s.length - 1);
+  // console.log("s : ", s, "stripped= ", stripped);
+  console.log(stripped);
+  if (stripped.length > 1) {
+    let x = `ms ms-${stripped[0].toLowerCase()}${stripped[
+      stripped.length - 1
+    ].toLowerCase()} ms-cost ms-shadow`;
+    console.log("x", x);
+    return <i class={x}></i>;
+  }
+  switch (stripped) {
+    case "G":
+      return <i class="ms ms-g ms-cost ms-shadow"></i>;
+    case "R":
+      return <i class="ms ms-r ms-cost ms-shadow"></i>;
+    case "B":
+      return <i class="ms ms-b ms-cost ms-shadow"></i>;
+    case "U":
+      return <i class="ms ms-u ms-cost ms-shadow"></i>;
+    case "W":
+      return <i class="ms ms-w ms-cost ms-shadow"></i>;
+    case "X":
+      return <i class="ms ms-x ms-cost ms-shadow"></i>;
+    case "C":
+      return <i class="ms ms-c ms-cost ms-shadow"></i>;
+    case "T":
+      return <i class="ms ms-tap ms-cost ms-shadow"></i>;
+    case "1":
+      return <i class="ms ms-1 ms-cost ms-shadow"></i>;
+    case "2":
+      return <i class="ms ms-2 ms-cost ms-shadow"></i>;
+    case "3":
+      return <i class="ms ms-3 ms-cost ms-shadow"></i>;
+    case "4":
+      return <i class="ms ms-4 ms-cost ms-shadow"></i>;
+    case "5":
+      return <i class="ms ms-5 ms-cost ms-shadow"></i>;
+    case "6":
+      return <i class="ms ms-6 ms-cost ms-shadow"></i>;
+    case "7":
+      return <i class="ms ms-7 ms-cost ms-shadow"></i>;
+    case "8":
+      return <i class="ms ms-8 ms-cost ms-shadow"></i>;
+    case "9":
+      return <i class="ms ms-9 ms-cost ms-shadow"></i>;
+    case [0] == "+":
+      console.log("we here!");
+    default:
+      return s;
+  }
+};
+
 export const scrymf_cost = (s) => {
-  //   if (s[0] == "+") {
-  //     console.log("BOOBAY");
-  //   }
-  //   if (s[0] == "-") {
-  //     console.log("DOOBIE");
-  //   }
   let stripped = s.substring(1, s.length - 1);
 
   switch (stripped) {

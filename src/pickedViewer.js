@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import "./cardPicker.css";
 import "./pickedViewerCSS.css";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -16,7 +16,12 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { readcosts, testOracle, scrymf_cost } from "./manaconversions.js";
+import {
+  readcosts,
+  testOracle,
+  scrymf_cost,
+  oracleCosts,
+} from "./manaconversions.js";
 
 <link
   href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.min.css"
@@ -127,7 +132,9 @@ const PickedViewer = (props) => {
           <AccordionDetails>
             <div className={classes.detailHolder}>
               <Typography color="textPrimary" className={classes.oracleDiv}>
-                {val.oracle_text}
+                <React.Fragment>
+                  {oracleCosts(val.oracle_text).map((val) => val)}
+                </React.Fragment>
               </Typography>
               <Typography color="textSecondary" className={classes.ptDetails}>
                 {val.power} {printSlash(val.power, val.toughness)}{" "}
