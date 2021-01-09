@@ -2,9 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import NavbarTop from "./nbTop";
-import "./nbTopCSS.css";
-import GameSection from "./gameSection";
+import GameSection from "./view/gameSection";
 
 import store from "./store.js";
 import { Provider } from "react-redux";
