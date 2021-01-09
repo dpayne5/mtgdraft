@@ -1,4 +1,15 @@
-# Getting Started with Create React App
+#MTG DRAFT
+
+This is a small project application. Eventually I would like to support drafting against
+an AI that plays a basic strategy for sets in standard rotation.
+
+To run this project locally, run the following command from the directory:
+
+### `npm start`
+
+Feedback/suggestions are always welcome, you can reach me at dpayne5@berkeley.edu
+
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -63,8 +74,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment) -->
 
-### `npm run build` fails to minify
+<!-- ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
