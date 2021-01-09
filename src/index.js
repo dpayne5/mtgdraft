@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import GameSection from "./view/gameSection";
 
 import store from "./store.js";
@@ -15,7 +14,6 @@ import { Provider } from "react-redux";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <NavbarTop /> */}
       <GameSection />
     </Provider>
   </React.StrictMode>,

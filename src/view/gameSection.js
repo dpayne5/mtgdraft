@@ -130,13 +130,13 @@ const GameSection = (props) => {
   return (
     <div>
       <div className="newtopbar">
-        <h1>MTG Draft: A Project App</h1>
+        <h1 style={{ textAlign: "center" }}>MTG Draft: A Project App</h1>
         <Grid container>
           <Grid item xs={4} align="center">
             <Button
               color="primary"
               size="large"
-              onClick={() => dispatch({ type: "gamecards/generateFakeSet" })} //handleSetSelection(0)
+              onClick={() => dispatch({ type: "gamecards/generateSets" })} //handleSetSelection(0)
             >
               Zendikar Rising
             </Button>

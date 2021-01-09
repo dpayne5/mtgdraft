@@ -26,26 +26,6 @@ export const oracleCosts = (oracle_text) => {
     totalReturn.push(<p>{r}</p>);
   }
   return totalReturn;
-
-  // let a = oracle_text.split(/\s/);
-  // // let a = oracle_text.split(" ");
-  // console.log(a);
-  // let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}/g;
-  // let r = [];
-
-  // for (let i = 0; i < a.length; i++) {
-  //   let matches = a[i].match(pattern);
-  //   if (matches) {
-  //     for (let m of matches) {
-  //       // console.log(m);
-  //       r.push(oracleConversions(m));
-  //     }
-  //     r.push(" ");
-  //   } else {
-  //     r.push(a[i] + " ");
-  //   }
-  // }
-  // return r;
 };
 
 export const readcosts = (mana_costs) => {

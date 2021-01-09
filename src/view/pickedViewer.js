@@ -2,12 +2,9 @@ import React, { useState, Fragment } from "react";
 import "./styles/cardPicker.css";
 import "./styles/pickedViewerCSS.css";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Grid from "@material-ui/core/Grid";
+
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { connect } from "react-redux";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -19,7 +16,7 @@ import {
   testOracle,
   scrymf_cost,
   oracleCosts,
-} from "../manaconversions.js";
+} from "../gameFunctions/manaconversions.js";
 
 <link
   href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.min.css"

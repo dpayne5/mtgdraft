@@ -85,7 +85,7 @@ const parseCards = (data) => {
 };
 
 const fetchMTGJSON = (storeAPI) => (next) => (action) => {
-  if (action.type === "gamecards/generateFakeSet") {
+  if (action.type === "gamecards/generateSets") {
     // Make an API call to fetch todos from the server
     let data = fetch(
       "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints"
@@ -97,11 +97,6 @@ const fetchMTGJSON = (storeAPI) => (next) => (action) => {
         let bg = Promise.resolve(F(d)).then((result) =>
           storeAPI.dispatch({ type: "gamecards/JSONLOADED", payload: result })
         );
-
-        // let cardInfo = parseCards(d);
-
-        // console.log(cardInfo);
-        // storeAPI.dispatch({ type: "gamecards/JSONLOADED", payload: cardInfo });
       });
   }
 
