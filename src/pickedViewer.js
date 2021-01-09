@@ -12,8 +12,6 @@ import { connect } from "react-redux";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
@@ -62,6 +60,11 @@ const useStyles = makeStyles({
     width: "100%",
     height: "50px",
   },
+  // summaryStyles: {
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   alignItems: "flex-start",
+  // },
   manaHeading: {
     width: "10%",
     display: "flex",
@@ -73,9 +76,12 @@ const useStyles = makeStyles({
   typeHeading: {
     width: "30%",
   },
+  qtyHeading: {
+    width: "5%",
+  },
   oracleDiv: {
     width: "70%",
-    fontSize: "90%",
+    // fontSize: "90%",
   },
   ptDetails: {
     width: "8%",
@@ -115,6 +121,9 @@ const PickedViewer = (props) => {
             aria-controls="additional-actions1-content"
             id="additional-actions1-header"
           >
+            <Typography color="textPrimary" className={classes.qtyHeading}>
+              {`Qty: ${val.count}`}
+            </Typography>
             <Typography className={classes.manaHeading} color="textPrimary">
               {readcosts(val.mana_cost).map((r) => (
                 <div style={{ margin: "10 10 10 10" }}>
@@ -132,11 +141,13 @@ const PickedViewer = (props) => {
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.detailHolder}>
-              <Typography color="textPrimary" className={classes.oracleDiv}>
+              <Typography
+                color="textPrimary"
+                variant="body2"
+                className={classes.oracleDiv}
+              >
                 <React.Fragment>
                   {oracleCosts(val.oracle_text).map((val) => val)}
-                  {/* <p>{"bob"}</p>
-                  <p>{"dobalina"}</p> */}
                 </React.Fragment>
               </Typography>
               <Typography color="textSecondary" className={classes.ptDetails}>

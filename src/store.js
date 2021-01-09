@@ -42,6 +42,7 @@ const parseCards = (data) => {
           power: x.power,
           toughness: x.toughness,
           rarity: x.rarity,
+          count: 1,
         });
       } else {
         if (x.full_art === true) {
@@ -60,6 +61,7 @@ const parseCards = (data) => {
             power: x.power,
             toughness: x.toughness,
             rarity: x.rarity,
+            count: 1,
           });
         }
       }
@@ -75,6 +77,7 @@ const parseCards = (data) => {
       y.toughness = y.card_faces[0]["toughness"];
       y.imagelink = y.card_faces[0]["image_uris"]["png"];
       y.type = y.card_faces[0].type_line;
+      y.count = 1;
     }
   }
 

@@ -233,12 +233,27 @@ export default function appReducer(state = initialStateC, action) {
     }
 
     case "gamecards/pickDraftCard": {
+      let newCard = pickCardFromBooster(state.gameBoosters[0], action.payload);
+      let copyMainBoard = [...state.mainboard];
+      let shouldAdd = true;
+
+      for (let item of copyMainBoard) {
+        if (newCard.name === item.name) {
+          shouldAdd = false;
+          item.count += 1;
+        }
+      }
+
+      if (shouldAdd) {
+        copyMainBoard.push(newCard);
+      }
       return {
         ...state,
-        mainboard: [
-          ...state.mainboard,
-          pickCardFromBooster(state.gameBoosters[0], action.payload),
-        ],
+        mainboard: copyMainBoard,
+        // mainboard: [
+        //   ...state.mainboard,
+        //   pickCardFromBooster(state.gameBoosters[0], action.payload),
+        // ],
         gameBoosters:
           state.round % 2 === 1
             ? playerPickOdd(
