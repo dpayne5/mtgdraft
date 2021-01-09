@@ -1,4 +1,4 @@
-#MTG DRAFT
+# MTG DRAFT
 
 This is a small project application. Eventually I would like to support drafting against
 an AI that plays a basic strategy for sets in standard rotation.
