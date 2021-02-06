@@ -42,6 +42,7 @@ const parseCards = (data) => {
           power: x.power,
           toughness: x.toughness,
           rarity: x.rarity,
+          loyalty: x.loyalty,
           count: 1,
         });
       } else {
@@ -61,6 +62,26 @@ const parseCards = (data) => {
             power: x.power,
             toughness: x.toughness,
             rarity: x.rarity,
+            loyalty: x.loyalty,
+            count: 1,
+          });
+        } else {
+          cards.push({
+            id: x.mtgo_id,
+            name: x.name,
+            imagelink:
+              typeof x.image_uris != "undefined"
+                ? x.image_uris["normal"]
+                : null,
+            mana_cost: x.mana_cost,
+            cmc: x.cmc,
+            card_faces: x.card_faces,
+            type: x.type_line,
+            oracle_text: x.oracle_text,
+            power: x.power,
+            toughness: x.toughness,
+            rarity: x.rarity,
+            loyalty: x.loyalty,
             count: 1,
           });
         }
@@ -77,6 +98,7 @@ const parseCards = (data) => {
       y.toughness = y.card_faces[0]["toughness"];
       y.imagelink = y.card_faces[0]["image_uris"]["png"];
       y.type = y.card_faces[0].type_line;
+      y.loyalty = y.card_faces[0].loyalty;
       y.count = 1;
     }
   }
@@ -87,9 +109,7 @@ const parseCards = (data) => {
 const fetchMTGJSON = (storeAPI) => (next) => (action) => {
   if (action.type === "gamecards/generateSets") {
     // Make an API call to fetch todos from the server
-    let data = fetch(
-      "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints"
-    )
+    let data = fetch(action.payload)
       .then(function (response) {
         return response.json();
       })

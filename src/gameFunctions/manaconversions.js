@@ -9,7 +9,7 @@ export const oracleCosts = (oracle_text) => {
 
   for (let i = 0; i < test.length; i++) {
     let a = test[i].split(/\s/);
-    let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}/g;
+    let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}|IV|III|II|I$|I,/g;
     let r = [];
     for (let i = 0; i < a.length; i++) {
       let matches = a[i].match(pattern);
@@ -50,19 +50,40 @@ export const testOracle = () => {
 };
 
 const oracleConversions = (s) => {
-  //check for loyalty counters before stripping
+  //check for loyalty symbolsbefore stripping
 
   if (s[0] !== "{" && s[s.length - 1] === ":") {
     if (s[0] === "+") {
       let x = `ms ms-loyalty-up ms-loyalty-${s[1]}`;
       return <i class={x}></i>;
     } else if (s[0] !== "0") {
-      let x = `ms ms-loyalty-down ms-loyalty-${s[1]}`;
+      let x = `ms ms-loyalty-down ms-loyalty-${s.slice(1, s.length - 1)}`; //s[1]
       return <i class={x}></i>;
     } else {
       let x = "ms ms-loyalty-zero ms-loyalty-0";
       return <i class={x}></i>;
     }
+  }
+
+  //check for saga symbols before stripping
+  if (s === "IV") {
+    return <i class="ms ms-saga ms-saga-4 ms-2x"></i>;
+  }
+
+  if (s === "III") {
+    return <i class="ms ms-saga ms-saga-3 ms-2x"></i>;
+  }
+
+  if (s === "II") {
+    return <i class="ms ms-saga ms-saga-2 ms-2x"></i>;
+  }
+
+  if (s === "I") {
+    return <i class="ms ms-saga ms-saga-1 ms-2x"></i>;
+  }
+
+  if (s === "I,") {
+    return <i class="ms ms-saga ms-saga-1 ms-2x"></i>;
   }
 
   let stripped = s.substring(1, s.length - 1);

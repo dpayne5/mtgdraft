@@ -136,7 +136,13 @@ const GameSection = (props) => {
             <Button
               color="primary"
               size="large"
-              onClick={() => dispatch({ type: "gamecards/generateSets" })} //handleSetSelection(0)
+              onClick={() =>
+                dispatch({
+                  type: "gamecards/generateSets",
+                  payload:
+                    "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints",
+                })
+              } //handleSetSelection(0)
             >
               Zendikar Rising
             </Button>
@@ -145,7 +151,13 @@ const GameSection = (props) => {
             <Button
               color="primary"
               size="large"
-              onClick={() => handleSetSelection(1)}
+              onClick={() =>
+                dispatch({
+                  type: "gamecards/generateSets",
+                  payload:
+                    "https://api.scryfall.com/cards/search?order=set&q=e%3Am21&unique=prints",
+                })
+              }
             >
               Core 2021
             </Button>
@@ -154,7 +166,13 @@ const GameSection = (props) => {
             item
             xs={4}
             align="center"
-            onClick={() => handleSetSelection(2)}
+            onClick={() =>
+              dispatch({
+                type: "gamecards/generateSets",
+                payload:
+                  "https://api.scryfall.com/cards/search?order=set&q=e%3Athb&unique=prints",
+              })
+            }
           >
             <Button color="primary" size="large">
               Theros Beyond Death

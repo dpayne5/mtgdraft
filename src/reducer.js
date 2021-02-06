@@ -53,6 +53,8 @@ export default function appReducer(state = initialStateC, action) {
         ),
 
         allCards: action.payload,
+        mainboard: [],
+        sideboard: [],
       };
     }
     case "gamecards/generateSets": {

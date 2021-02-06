@@ -31,6 +31,10 @@ const printSlash = (power, toughness) => {
   return "";
 };
 
+const displayStartLoyalty = (loyalty) => {
+  return `ms ms-loyalty-start ms-loyalty-${loyalty} ms-4x`;
+};
+
 const has_em_dash = (s) => {
   let pattern = /\u2014/;
 
@@ -57,11 +61,7 @@ const useStyles = makeStyles({
     width: "100%",
     height: "50px",
   },
-  // summaryStyles: {
-  //   display: "flex",
-  //   flexDirection: "row",
-  //   alignItems: "flex-start",
-  // },
+
   manaHeading: {
     width: "10%",
     display: "flex",
@@ -148,8 +148,16 @@ const PickedViewer = (props) => {
                 </React.Fragment>
               </Typography>
               <Typography color="textSecondary" className={classes.ptDetails}>
-                {val.power} {printSlash(val.power, val.toughness)}{" "}
-                {val.toughness}
+                {val.loyalty ? (
+                  <React.Fragment>
+                    <i class={displayStartLoyalty(val.loyalty)}></i>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    {val.power} {printSlash(val.power, val.toughness)}{" "}
+                    {val.toughness}
+                  </React.Fragment>
+                )}
               </Typography>
             </div>
           </AccordionDetails>
