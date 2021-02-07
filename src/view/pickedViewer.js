@@ -6,6 +6,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Bar } from "react-chartjs-2";
+import Button from "@material-ui/core/Button";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -158,12 +159,15 @@ const useStyles = makeStyles({
   },
   nameHeading: {
     width: "20%",
+    paddingTop: "6px",
   },
   typeHeading: {
     width: "30%",
+    paddingTop: "6px",
   },
   qtyHeading: {
     width: "5%",
+    paddingTop: "6px",
   },
   oracleDiv: {
     width: "70%",
@@ -208,7 +212,6 @@ const PickedViewer = (props) => {
     sevenCosts,
     eightCosts,
   ] = mbMetaInfo(mainboard);
-  // console.log(mbMetaInfo(mainboard));
 
   const handleChange = (event, newValue) => {
     console.log("this should trigger swapping between tabs");
@@ -276,7 +279,6 @@ const PickedViewer = (props) => {
 const Metainfo = (props) => {
   console.log(props.costsData);
 
-  let [c, s, one, two, three, four, five] = [3, 3, 1, 2, 0, 1, 2, 0];
   const data = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8"],
     datasets: [
@@ -337,6 +339,18 @@ const Mainboard = (props) => {
             aria-controls="additional-actions1-content"
             id="additional-actions1-header"
           >
+            <Button
+              color="secondary"
+              paddingBottom="5px"
+              onClick={(event) => {
+                event.stopPropagation();
+                console.log(val);
+                dispatch({ type: "gamecards/swaptoSB", payload: val });
+              }}
+              onFocus={(event) => event.stopPropagation()}
+            >
+              SB
+            </Button>
             <Typography color="textPrimary" className={classes.qtyHeading}>
               {`Qty: ${val.count}`}
             </Typography>
@@ -402,6 +416,17 @@ const Sideboard = (props) => {
             aria-controls="additional-actions1-content"
             id="additional-actions1-header"
           >
+            <Button
+              color="primary"
+              paddingBottom="5px"
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch({ type: "gamecards/swaptoMB", payload: val });
+              }}
+              onFocus={(event) => event.stopPropagation()}
+            >
+              MB
+            </Button>
             <Typography color="textPrimary" className={classes.qtyHeading}>
               {`Qty: ${val.count}`}
             </Typography>

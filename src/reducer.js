@@ -29,6 +29,17 @@ const initialStateC = {
   mythics: null,
 };
 
+const findCardIndex = (board, card) => {
+  let index = -1;
+
+  for (let i = 0; i < board.length; i++) {
+    if (card.name === board[i].name) {
+      return i;
+    }
+  }
+  return index;
+};
+
 export default function appReducer(state = initialStateC, action) {
   switch (action.type) {
     case "gamecards/JSONLOADED": {
@@ -62,6 +73,58 @@ export default function appReducer(state = initialStateC, action) {
         ...state,
         progressValue: 0,
         round: 1,
+      };
+    }
+    case "gamecards/swaptoSB": {
+      let cardToMove = action.payload;
+      let updatedMB = [...state.mainboard];
+      let updatedSB = [...state.sideboard];
+
+      let index = findCardIndex(updatedMB, cardToMove);
+
+      if (updatedMB[index].count > 1) {
+        updatedMB[index].count -= 1;
+      } else {
+        updatedMB.splice(index, 1);
+      }
+
+      let sbIndex = findCardIndex(updatedSB, cardToMove);
+      if (sbIndex == -1) {
+        updatedSB.push(cardToMove);
+      } else {
+        updatedSB[sbIndex].count += 1;
+      }
+      return {
+        ...state,
+        mainboard: updatedMB,
+        sideboard: updatedSB,
+      };
+    }
+
+    case "gamecards/swaptoMB": {
+      let cardToMove = action.payload;
+      let updatedMB = [...state.mainboard];
+      let updatedSB = [...state.sideboard];
+
+      let index = findCardIndex(updatedSB, cardToMove);
+
+      if (updatedSB[index].count > 1) {
+        updatedSB[index].count -= 1;
+      } else {
+        updatedSB.splice(index, 1);
+      }
+
+      let mbIndex = findCardIndex(updatedMB, cardToMove);
+      if (mbIndex == -1) {
+        updatedMB.push(cardToMove);
+      } else {
+        updatedMB[mbIndex].count += 1;
+      }
+
+      return {
+        ...state,
+        mainboard: updatedMB,
+        sideboard: updatedSB,
       };
     }
 
