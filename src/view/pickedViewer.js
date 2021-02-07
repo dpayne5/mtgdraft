@@ -241,10 +241,10 @@ const PickedViewer = (props) => {
           ]}
         />
         <div className="creatureSpellTextHolder">
-          <Typography color="textPrimary" variant="h6">
+          <Typography color="textPrimary" variant="button">
             {`Creatures: ${numCreatures}`}
           </Typography>
-          <Typography color="textPrimary" variant="h6">
+          <Typography color="textPrimary" variant="button">
             {`Spells: ${numSpells}`}
           </Typography>
         </div>
