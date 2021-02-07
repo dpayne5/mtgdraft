@@ -105,26 +105,6 @@ const GameSection = (props) => {
 
   const [cardsetlink, setCardSetLink] = React.useState("");
 
-  const handleSetSelection = (index) => {
-    if (index == 0) {
-      console.log(index);
-      setCardSetLink(
-        "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints"
-      );
-    } else if (index == 1) {
-      console.log(index);
-      setCardSetLink(
-        "https://api.scryfall.com/cards/search?order=set&q=e%3Am21&unique=prints"
-      );
-    } else {
-      console.log(index);
-      setCardSetLink(
-        "https://api.scryfall.com/cards/search?order=set&q=e%3Athb&unique=prints"
-      );
-    }
-    console.log(cardsetlink);
-  };
-
   const dispatch = useDispatch();
 
   return (

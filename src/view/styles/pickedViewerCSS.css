@@ -3,3 +3,29 @@
   justify-content: space-evenly;
   width: 25%;
 }
+
+.metaInfo {
+  width: 100%;
+  height: 100px;
+  /* background-color: aqua; */
+  margin: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.metaCMCcontainer {
+  padding-top: 5px;
+  width: 60%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+}
+
+.creatureSpellTextHolder {
+  width: 35%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

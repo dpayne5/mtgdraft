@@ -3,9 +3,9 @@ import { Fragment } from "react";
 
 export const oracleCosts = (oracle_text) => {
   let totalReturn = [];
-  console.log(oracle_text);
+  // console.log(oracle_text);
   let test = oracle_text.split("\n");
-  console.log(test);
+  // console.log(test);
 
   for (let i = 0; i < test.length; i++) {
     let a = test[i].split(/\s/);
@@ -88,7 +88,7 @@ const oracleConversions = (s) => {
 
   let stripped = s.substring(1, s.length - 1);
   // console.log("s : ", s, "stripped= ", stripped);
-  console.log(stripped);
+  // console.log(stripped);
   if (stripped.length > 1) {
     let x = `ms ms-${stripped[0].toLowerCase()}${stripped[
       stripped.length - 1
