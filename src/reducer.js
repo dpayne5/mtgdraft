@@ -29,6 +29,15 @@ const initialStateC = {
   mythics: null,
 };
 
+const clone = (obj) => {
+  if (null == obj || "object" != typeof obj) return obj;
+  var copy = obj.constructor();
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+  }
+  return copy;
+};
+
 const findCardIndex = (board, card) => {
   let index = -1;
 
@@ -77,10 +86,12 @@ export default function appReducer(state = initialStateC, action) {
     }
     case "gamecards/swaptoSB": {
       let cardToMove = action.payload;
+
       let updatedMB = [...state.mainboard];
       let updatedSB = [...state.sideboard];
 
       let index = findCardIndex(updatedMB, cardToMove);
+      let theCard = updatedMB[index];
 
       if (updatedMB[index].count > 1) {
         updatedMB[index].count -= 1;
@@ -89,11 +100,15 @@ export default function appReducer(state = initialStateC, action) {
       }
 
       let sbIndex = findCardIndex(updatedSB, cardToMove);
+      console.log("SB INDEX IS", sbIndex);
       if (sbIndex == -1) {
-        updatedSB.push(cardToMove);
+        let copyCard = clone(cardToMove);
+        copyCard.count = 1;
+        updatedSB.push(copyCard);
       } else {
         updatedSB[sbIndex].count += 1;
       }
+
       return {
         ...state,
         mainboard: updatedMB,
@@ -116,7 +131,9 @@ export default function appReducer(state = initialStateC, action) {
 
       let mbIndex = findCardIndex(updatedMB, cardToMove);
       if (mbIndex == -1) {
-        updatedMB.push(cardToMove);
+        let copyCard = clone(cardToMove);
+        copyCard.count = 1;
+        updatedMB.push(copyCard);
       } else {
         updatedMB[mbIndex].count += 1;
       }

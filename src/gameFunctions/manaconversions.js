@@ -9,14 +9,11 @@ export const oracleCosts = (oracle_text) => {
 
   for (let i = 0; i < test.length; i++) {
     let a = test[i].split(/\s/);
-    console.log(a);
     let pattern = /\d\d:|\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}|IV|III|II|I$|I,/g;
 
     let r = [];
     for (let i = 0; i < a.length; i++) {
-      console.log(a[i]);
       let matches = a[i].match(pattern);
-      console.log(matches);
       if (matches) {
         for (let m of matches) {
           // console.log(m);

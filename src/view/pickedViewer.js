@@ -292,8 +292,6 @@ const PickedViewer = (props) => {
 };
 
 const Metainfo = (props) => {
-  console.log(props.costsData);
-
   const data = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8"],
     datasets: [
@@ -341,6 +339,9 @@ const Metainfo = (props) => {
 const Mainboard = (props) => {
   const mainboard = useSelector(getMainBoard);
   mainboard.sort((a, b) => a.cmc - b.cmc);
+
+  console.log("from mainboard");
+  console.log(mainboard);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -420,6 +421,7 @@ const Sideboard = (props) => {
   sideboard.sort((a, b) => a.cmc - b.cmc);
   const dispatch = useDispatch();
   const classes = useStyles();
+  console.log(sideboard);
 
   return (
     <div>
