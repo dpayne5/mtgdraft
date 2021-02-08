@@ -9,10 +9,14 @@ export const oracleCosts = (oracle_text) => {
 
   for (let i = 0; i < test.length; i++) {
     let a = test[i].split(/\s/);
-    let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}|IV|III|II|I$|I,/g;
+    console.log(a);
+    let pattern = /\d\d:|\{\d\}|\{\w\}|\+\d:|\-\d:|\W\d:|0:|\{\d\/\w\}|IV|III|II|I$|I,/g;
+
     let r = [];
     for (let i = 0; i < a.length; i++) {
+      console.log(a[i]);
       let matches = a[i].match(pattern);
+      console.log(matches);
       if (matches) {
         for (let m of matches) {
           // console.log(m);
@@ -29,7 +33,7 @@ export const oracleCosts = (oracle_text) => {
 };
 
 export const readcosts = (mana_costs) => {
-  let pattern = /\{\d\}|\{\w\}|\+\d:|\-\d:|0:/g;
+  let pattern = /\{\d\d\}|\{\d\}|\{\w\}|\+\d:|\-\d*:|\-\d:|0:/g;
   let scrycosts = mana_costs.match(pattern);
   let mfcosts = [];
   if (scrycosts == null) {
@@ -42,11 +46,8 @@ export const readcosts = (mana_costs) => {
 };
 
 export const testOracle = () => {
-  //   return <i className="ms ms-r ms-cost ms-shadow"></i>;
   let x = ["ok", <i className="ms ms-r ms-cost ms-shadow"></i>, "bye"];
   return <Fragment>{x.map((val) => val)}</Fragment>;
-
-  //   return <div>{x.join(" ")}</div>;
 };
 
 const oracleConversions = (s) => {
@@ -57,6 +58,17 @@ const oracleConversions = (s) => {
       let x = `ms ms-loyalty-up ms-loyalty-${s[1]}`;
       return <i class={x}></i>;
     } else if (s[0] !== "0") {
+      console.log(s);
+      let loyaltyNum = s.slice(0, s.length - 1);
+      console.log("new sliced s = ", loyaltyNum);
+
+      if (parseInt(loyaltyNum) == 10) {
+        let specialCase = `ms ms-loyalty-down ms-loyalty-${parseInt(
+          loyaltyNum
+        )}`;
+        return <i class={specialCase}></i>;
+      }
+
       let x = `ms ms-loyalty-down ms-loyalty-${s.slice(1, s.length - 1)}`; //s[1]
       return <i class={x}></i>;
     } else {
@@ -131,6 +143,8 @@ const oracleConversions = (s) => {
       return <i class="ms ms-8 ms-cost ms-shadow"></i>;
     case "9":
       return <i class="ms ms-9 ms-cost ms-shadow"></i>;
+    case "10":
+      return <i class="ms ms-10 ms-cost ms-shadow"></i>;
 
     default:
       return s;

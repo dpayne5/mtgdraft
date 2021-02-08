@@ -12,6 +12,16 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 5px;
+  /* border-bottom: 5px solid white; */
+}
+
+.toplevel {
+  padding-top: 10px;
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .metaCMCcontainer {
@@ -23,9 +33,12 @@
 }
 
 .creatureSpellTextHolder {
-  width: 35%;
+  padding-top: 5px;
+  margin: auto;
+  width: 50%;
   height: 90%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
 }

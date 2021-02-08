@@ -55,37 +55,37 @@ const mbMetaInfo = (mainboard) => {
 
   for (let card of mainboard) {
     if (card.type.includes("Creature") || card.type.includes("Planeswalker")) {
-      creatures += 1;
+      creatures += card.count;
     } else if (!card.type.includes("Land")) {
-      spells += 1;
+      spells += card.count;
     } else {
       let a = 1; //just a do nothing line till i get this figured out correctly
     }
     switch (card.cmc) {
       case 1:
-        oneCosts += 1;
+        oneCosts += card.count;
         break;
 
       case 2:
-        twoCosts += 1;
+        twoCosts += card.count;
         break;
       case 3:
-        threeCosts += 1;
+        threeCosts += card.count;
         break;
       case 4:
-        fourCosts += 1;
+        fourCosts += card.count;
         break;
       case 5:
-        fiveCosts += 1;
+        fiveCosts += card.count;
         break;
       case 6:
-        sixCosts += 1;
+        sixCosts += card.count;
         break;
       case 7:
-        sevenCosts += 1;
+        sevenCosts += card.count;
         break;
       case 8:
-        eightCosts += 1;
+        eightCosts += card.count;
         break;
       default:
         break;
@@ -184,6 +184,15 @@ const useStyles = makeStyles({
   },
 });
 
+const countCards = (mainboard) => {
+  let c = 0;
+
+  for (let card of mainboard) {
+    c += card.count;
+  }
+  return c;
+};
+
 function convertManaSymbols() {}
 
 const getMainBoard = (state) => state.mainboard;
@@ -241,12 +250,18 @@ const PickedViewer = (props) => {
           ]}
         />
         <div className="creatureSpellTextHolder">
-          <Typography color="textPrimary" variant="button">
-            {`Creatures: ${numCreatures}`}
-          </Typography>
-          <Typography color="textPrimary" variant="button">
-            {`Spells: ${numSpells}`}
-          </Typography>
+          <div className="toplevel">
+            <Typography color="textPrimary" variant="button">
+              {`Creatures: ${numCreatures}`}
+            </Typography>
+            <Typography color="textPrimary" variant="button">
+              {`Spells: ${numSpells}`}
+            </Typography>
+            <Typography
+              color="textPrimary"
+              variant="button"
+            >{`Total Cards: ${countCards(mainboard)}`}</Typography>
+          </div>
         </div>
       </div>
       <div className="pickedCardViewContainer">
