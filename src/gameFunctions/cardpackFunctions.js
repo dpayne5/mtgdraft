@@ -1,5 +1,77 @@
 //game functions
 
+export function colorBias(botBoard) {
+  let total = 0;
+  let white = 0;
+  let blue = 0;
+  let black = 0;
+  let green = 0;
+  let red = 0;
+  let colorless = 0;
+
+  for (let card of botBoard) {
+    total += card.count;
+
+    for (let c of card.colors) {
+      switch (c) {
+        case "W":
+          white += 1;
+          break;
+        case "U":
+          blue += 1;
+          break;
+        case "B":
+          black += 1;
+        case "R":
+          red += 1;
+        case "G":
+          green += 1;
+        default:
+          colorless += 1;
+      }
+    }
+  }
+  return {
+    whiteColorBias: 1 + white / total,
+    blackColorBias: 1 + black / total,
+    blueColorBias: 1 + blue / total,
+    redColorBias: 1 + red / total,
+    greenColorBias: 1 + green / total,
+    colorlessBias: 1 + colorless / total,
+  };
+}
+
+export function getColorValue(colorBias, colors) {
+  if (colors.length == 0) {
+    return colorlessBias["colorlessBias"];
+  }
+
+  score = 0;
+
+  for (let color of colors) {
+    switch (color) {
+      case "R":
+        score += colorBias["redColorBias"];
+        break;
+      case "W":
+        score += colorBias["whiteColorBias"];
+        break;
+      case "G":
+        score += colorBias["greenColorBias"];
+        break;
+      case "U":
+        score += colorBias["blueColorBias"];
+        break;
+      case "B":
+        score += colorBias["blackColorBias"];
+        break;
+      default:
+        break;
+    }
+  }
+  return score;
+}
+
 export function removeCardFromBooster(pack, itemID) {
   return pack.filter((id) => id !== itemID);
 }

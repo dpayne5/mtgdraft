@@ -43,6 +43,7 @@ const parseCards = (data) => {
           toughness: x.toughness,
           rarity: x.rarity,
           loyalty: x.loyalty,
+          colors: x.colors,
           count: 1,
         });
       } else {
@@ -63,6 +64,7 @@ const parseCards = (data) => {
             toughness: x.toughness,
             rarity: x.rarity,
             loyalty: x.loyalty,
+            colors: x.colors,
             count: 1,
           });
         } else {
@@ -82,6 +84,7 @@ const parseCards = (data) => {
             toughness: x.toughness,
             rarity: x.rarity,
             loyalty: x.loyalty,
+            colors: x.colors,
             count: 1,
           });
         }
@@ -99,6 +102,7 @@ const parseCards = (data) => {
       y.imagelink = y.card_faces[0]["image_uris"]["png"];
       y.type = y.card_faces[0].type_line;
       y.loyalty = y.card_faces[0].loyalty;
+      y.colors = y.card_faces[0].colors;
       y.count = 1;
     }
   }
