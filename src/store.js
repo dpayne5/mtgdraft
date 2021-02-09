@@ -44,6 +44,7 @@ const parseCards = (data) => {
           rarity: x.rarity,
           loyalty: x.loyalty,
           colors: x.colors,
+          set: x.set,
           count: 1,
         });
       } else {
@@ -65,6 +66,7 @@ const parseCards = (data) => {
             rarity: x.rarity,
             loyalty: x.loyalty,
             colors: x.colors,
+            set: x.set,
             count: 1,
           });
         } else {
@@ -85,6 +87,7 @@ const parseCards = (data) => {
             rarity: x.rarity,
             loyalty: x.loyalty,
             colors: x.colors,
+            set: x.set,
             count: 1,
           });
         }

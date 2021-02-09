@@ -27,6 +27,18 @@ const initialStateC = {
   uncommons: null,
   rares: null,
   mythics: null,
+  currentSetRatings: {},
+};
+
+const ab = (setName) => {
+  let pathStart = setName.toUpperCase();
+  let f = `${pathStart}-ratings.txt`;
+  console.log(f);
+  let result = fetch(f) //../
+    .then((response) => response.text())
+    .then((text) => text);
+  Promise.all([result]);
+  return result;
 };
 
 const clone = (obj) => {
@@ -52,6 +64,9 @@ const findCardIndex = (board, card) => {
 export default function appReducer(state = initialStateC, action) {
   switch (action.type) {
     case "gamecards/JSONLOADED": {
+      let bc = ab(action.payload[0]["set"]);
+      Promise.all([bc]);
+      console.log(bc);
       let _commons = partitionSetIntoCommons(action.payload);
       let _uncommons = partitionSetIntoUncommons(action.payload);
       let _rares = partitionSetIntoRares(action.payload);

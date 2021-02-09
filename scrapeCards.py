@@ -14,16 +14,16 @@ def main(setTag):
     aTags = soup.find_all('a', class_="cardLink")
     for i in range(len(aTags)):
         draftValues[aTags[i]['data-name']] = aTags[i]['data-rating'].split(' ')[0]
-        dv += aTags[i]['data-name']
+        dv += "\"{0}\"".format(aTags[i]['data-name'])
         dv += ": "
-        dv += aTags[i]['data-rating'].split(' ')[0]
+        dv += "\"{0}\"".format(aTags[i]['data-rating'].split(' ')[0])
         if i != len(aTags)-1:
             dv += ", "
     dv += "}"
 
     print(dv)
 
-    RatingFile = open("{0}-ratings".format(setTag), "w")
+    RatingFile = open("{0}-ratings.txt".format(setTag), "w")
     RatingFile.write(dv)
     RatingFile.close()
 

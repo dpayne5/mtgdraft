@@ -43,10 +43,10 @@ export function colorBias(botBoard) {
 
 export function getColorValue(colorBias, colors) {
   if (colors.length == 0) {
-    return colorlessBias["colorlessBias"];
+    return colorBias["colorlessBias"];
   }
 
-  score = 0;
+  let score = 0;
 
   for (let color of colors) {
     switch (color) {
