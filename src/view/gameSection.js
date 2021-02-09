@@ -116,13 +116,19 @@ const GameSection = (props) => {
             <Button
               color="primary"
               size="large"
-              onClick={() =>
+              onClick={() => {
                 dispatch({
                   type: "gamecards/generateSets",
                   payload:
                     "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints",
-                })
-              } //handleSetSelection(0)
+                });
+              }}
+              // dispatch({
+              //   type: "gamecards/generateSets",
+              //   payload:
+              //     "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints",
+              // })
+              //} //handleSetSelection(0)
             >
               Zendikar Rising
             </Button>

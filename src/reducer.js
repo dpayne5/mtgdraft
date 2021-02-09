@@ -14,6 +14,8 @@ import {
   playerPickEven,
 } from "./gameFunctions/cardpackFunctions.js";
 
+import store from "./store.js";
+
 const initialStateC = {
   gameBoosters: [[]],
   mainboard: [],
@@ -30,16 +32,20 @@ const initialStateC = {
   currentSetRatings: {},
 };
 
-const ab = (setName) => {
+async function getRatings(setName) {
   let pathStart = setName.toUpperCase();
   let f = `${pathStart}-ratings.txt`;
+
   console.log(f);
-  let result = fetch(f) //../
+  let result = await fetch(f) //../
     .then((response) => response.text())
-    .then((text) => text);
-  Promise.all([result]);
+    .then((text) => {
+      console.log("text is", text);
+      store.dispatch({ type: "gamecards/assignRatings", payload: text });
+    });
+
   return result;
-};
+}
 
 const clone = (obj) => {
   if (null == obj || "object" != typeof obj) return obj;
@@ -64,9 +70,10 @@ const findCardIndex = (board, card) => {
 export default function appReducer(state = initialStateC, action) {
   switch (action.type) {
     case "gamecards/JSONLOADED": {
-      let bc = ab(action.payload[0]["set"]);
-      Promise.all([bc]);
-      console.log(bc);
+      let data = "initial data ";
+      let _setRatings = getRatings(action.payload[0]["set"]);
+      console.log(_setRatings);
+
       let _commons = partitionSetIntoCommons(action.payload);
       let _uncommons = partitionSetIntoUncommons(action.payload);
       let _rares = partitionSetIntoRares(action.payload);
@@ -92,6 +99,14 @@ export default function appReducer(state = initialStateC, action) {
         sideboard: [],
       };
     }
+
+    case "gamecards/assignRatings": {
+      console.log("inside workaround");
+      let ratings = JSON.parse(action.payload);
+      console.log(ratings);
+      // console.log(action.payload);
+      return { ...state, currentSetRatings: ratings };
+    }
     case "gamecards/generateSets": {
       return {
         ...state,
@@ -115,7 +130,6 @@ export default function appReducer(state = initialStateC, action) {
       }
 
       let sbIndex = findCardIndex(updatedSB, cardToMove);
-      console.log("SB INDEX IS", sbIndex);
       if (sbIndex == -1) {
         let copyCard = clone(cardToMove);
         copyCard.count = 1;
