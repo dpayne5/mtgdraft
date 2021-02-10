@@ -12,6 +12,8 @@ import {
   createEightBoosters,
   playerPickOdd,
   playerPickEven,
+  basicAIpick,
+  AIRemovePick,
 } from "./gameFunctions/cardpackFunctions.js";
 
 import store from "./store.js";
@@ -20,6 +22,13 @@ const initialStateC = {
   gameBoosters: [[]],
   mainboard: [],
   sideboard: [],
+  playerOnePicks: [],
+  playerTwoPicks: [],
+  playerThreePicks: [],
+  playerFourPicks: [],
+  playerFivePicks: [],
+  playerSixPicks: [],
+  playerSevenPicks: [],
   progressValue: 0,
   round: 1,
   cardSetFromAPI: null,
@@ -40,7 +49,7 @@ async function getRatings(setName) {
   let result = await fetch(f) //../
     .then((response) => response.text())
     .then((text) => {
-      console.log("text is", text);
+      // console.log("text is", text);
       store.dispatch({ type: "gamecards/assignRatings", payload: text });
     });
 
@@ -189,9 +198,46 @@ export default function appReducer(state = initialStateC, action) {
       if (shouldAdd) {
         copyMainBoard.push(newCard);
       }
+
+      let aiBoards = [
+        state.playerOnePicks,
+        state.playerTwoPicks,
+        state.playerThreePicks,
+        state.playerFourPicks,
+        state.playerFivePicks,
+        state.playerSixPicks,
+        state.playerSevenPicks,
+      ];
+
+      let aiPicks = [];
+      let i = 1;
+      for (let board of aiBoards) {
+        aiPicks.push(
+          basicAIpick(board, state.gameBoosters[i], state.currentSetRatings)
+        );
+        i += 1;
+      }
+      console.log(aiPicks);
+      let updatedAIBoards = [];
+
+      for (let i = 0; i < 7; i++) {
+        let updatedBoard = [...aiBoards[i]];
+        updatedBoard.push(aiPicks[i]);
+        updatedAIBoards.push(updatedBoard);
+      }
+
+      console.log(state.playerOnePicks);
+
       return {
         ...state,
         mainboard: copyMainBoard,
+        playerOnePicks: updatedAIBoards[0],
+        playerTwoPicks: updatedAIBoards[1],
+        playerThreePicks: updatedAIBoards[2],
+        playerFourPicks: updatedAIBoards[3],
+        playerFivePicks: updatedAIBoards[4],
+        playerSixPicks: updatedAIBoards[5],
+        playerSevenPicks: updatedAIBoards[6],
 
         gameBoosters:
           state.round % 2 === 1
@@ -203,7 +249,8 @@ export default function appReducer(state = initialStateC, action) {
                 state.commons,
                 state.uncommons,
                 state.rares,
-                state.mythics
+                state.mythics,
+                aiPicks
               )
             : playerPickEven(
                 state.gameBoosters,
@@ -213,7 +260,8 @@ export default function appReducer(state = initialStateC, action) {
                 state.commons,
                 state.uncommons,
                 state.rares,
-                state.mythics
+                state.mythics,
+                aiPicks
               ),
 
         progressValue:

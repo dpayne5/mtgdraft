@@ -1,5 +1,53 @@
 //game functions
 
+//this needs to return the index or name of the card we want the bot to draft
+export function basicAIpick(botCurrentPicks, botGamePack, setRatings) {
+  let colorbias = colorBias(botCurrentPicks);
+
+  // console.log("CB", colorbias);
+
+  // console.log(colorbias["whiteColorBias"], "<--- should be 0");
+  // console.log(setRatings);
+  let scores = [];
+
+  for (let card of botGamePack) {
+    let score = parseFloat(setRatings[card.name]);
+    score = isNaN(score) ? 0 : score;
+    // console.log(score);
+
+    for (let color of card.colors) {
+      switch (color) {
+        case "W":
+          score += colorbias["whiteColorBias"];
+          break;
+        case "U":
+          score += colorbias["blueColorBias"];
+          break;
+        case "B":
+          score += colorbias["blackColorBias"];
+          break;
+        case "R":
+          score += colorbias["redColorBias"];
+          break;
+        case "G":
+          score += colorbias["greenColorBias"];
+          break;
+        default:
+          score += colorbias["colorlessBias"];
+          break;
+      }
+    }
+    score = isNaN(score) ? 0 : score;
+    scores.push(score);
+  }
+  //get index of
+  // console.log("Scores are calculated as :.....", scores);
+  const botPick = scores.indexOf(Math.max(...scores));
+  // console.log(botPick);
+  // console.log(botGamePack[botPick]);
+  return botGamePack[botPick];
+}
+
 export function colorBias(botBoard) {
   let total = 0;
   let white = 0;
@@ -8,6 +56,17 @@ export function colorBias(botBoard) {
   let green = 0;
   let red = 0;
   let colorless = 0;
+
+  if (botBoard.length == 0) {
+    return {
+      whiteColorBias: 0,
+      blackColorBias: 0,
+      blueColorBias: 0,
+      redColorBias: 0,
+      greenColorBias: 0,
+      colorlessBias: 0,
+    };
+  }
 
   for (let card of botBoard) {
     total += card.count;
@@ -31,13 +90,14 @@ export function colorBias(botBoard) {
       }
     }
   }
+  console.log(white);
   return {
-    whiteColorBias: 1 + white / total,
-    blackColorBias: 1 + black / total,
-    blueColorBias: 1 + blue / total,
-    redColorBias: 1 + red / total,
-    greenColorBias: 1 + green / total,
-    colorlessBias: 1 + colorless / total,
+    whiteColorBias: 1 + total != 0 ? white / total : 0,
+    blackColorBias: 1 + total != 0 ? black / total : 0,
+    blueColorBias: 1 + total != 0 ? blue / total : 0,
+    redColorBias: 1 + total != 0 ? red / total : 0,
+    greenColorBias: 1 + total != 0 ? green / total : 0,
+    colorlessBias: 1 + total != 0 ? colorless / total : 0,
   };
 }
 
@@ -73,7 +133,13 @@ export function getColorValue(colorBias, colors) {
 }
 
 export function removeCardFromBooster(pack, itemID) {
+  console.log("item ID is ... ?", itemID);
   return pack.filter((id) => id !== itemID);
+}
+
+export function AIRemovePick(pack, item) {
+  return pack.filter((card) => card.name != item.name);
+  // return cpy.filter((id) => id !== itemID);
 }
 
 export function partitionBasicLands(set) {
@@ -207,16 +273,17 @@ export function playerPickOdd(
   commons,
   uncommons,
   rares,
-  mythics
+  mythics,
+  aiPicks
 ) {
   let pack0 = removeCardFromBooster(draftPacks[0], itemID);
-  let pack1 = AIpickCardFromBooster(draftPacks[1]);
-  let pack2 = AIpickCardFromBooster(draftPacks[2]);
-  let pack3 = AIpickCardFromBooster(draftPacks[3]);
-  let pack4 = AIpickCardFromBooster(draftPacks[4]);
-  let pack5 = AIpickCardFromBooster(draftPacks[5]);
-  let pack6 = AIpickCardFromBooster(draftPacks[6]);
-  let pack7 = AIpickCardFromBooster(draftPacks[7]);
+  let pack1 = AIRemovePick(draftPacks[1], aiPicks[0]);
+  let pack2 = AIRemovePick(draftPacks[2], aiPicks[1]);
+  let pack3 = AIRemovePick(draftPacks[3], aiPicks[2]);
+  let pack4 = AIRemovePick(draftPacks[4], aiPicks[3]);
+  let pack5 = AIRemovePick(draftPacks[5], aiPicks[4]);
+  let pack6 = AIRemovePick(draftPacks[6], aiPicks[5]);
+  let pack7 = AIRemovePick(draftPacks[7], aiPicks[6]);
 
   if (pack0.length === 0 && round < 3) {
     return createEightBoosters(lands, commons, uncommons, rares, mythics);
@@ -233,16 +300,17 @@ export function playerPickEven(
   commons,
   uncommons,
   rares,
-  mythics
+  mythics,
+  aiPicks
 ) {
   let pack0 = removeCardFromBooster(draftPacks[0], itemID);
-  let pack1 = AIpickCardFromBooster(draftPacks[1]);
-  let pack2 = AIpickCardFromBooster(draftPacks[2]);
-  let pack3 = AIpickCardFromBooster(draftPacks[3]);
-  let pack4 = AIpickCardFromBooster(draftPacks[4]);
-  let pack5 = AIpickCardFromBooster(draftPacks[5]);
-  let pack6 = AIpickCardFromBooster(draftPacks[6]);
-  let pack7 = AIpickCardFromBooster(draftPacks[7]);
+  let pack1 = AIRemovePick(draftPacks[1], aiPicks[0]);
+  let pack2 = AIRemovePick(draftPacks[2], aiPicks[1]);
+  let pack3 = AIRemovePick(draftPacks[3], aiPicks[2]);
+  let pack4 = AIRemovePick(draftPacks[4], aiPicks[3]);
+  let pack5 = AIRemovePick(draftPacks[5], aiPicks[4]);
+  let pack6 = AIRemovePick(draftPacks[6], aiPicks[5]);
+  let pack7 = AIRemovePick(draftPacks[7], aiPicks[6]);
 
   if (pack0.length === 0 && round < 3) {
     return createEightBoosters(lands, commons, uncommons, rares, mythics);
