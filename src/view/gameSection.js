@@ -49,7 +49,6 @@ const BorderLinearProgress = withStyles((theme) => ({
       theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
   },
   bar: {
-    // borderRadius: 5,
     backgroundColor: "#1a90ff",
   },
 }))(LinearProgress);
@@ -88,19 +87,14 @@ function a11yProps(index) {
 }
 
 const GameSection = (props) => {
-  //do props here
-
   const [progBarValue, setProgBarValue] = React.useState(0);
-
   const displayProgressValue = useSelector(selectProgress);
 
   const handleProgBarChange = (event, progVal) => {
     setProgBarValue(progVal);
   };
 
-  const classes = useStyles();
   const bclasses = useProgStyles();
-
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {

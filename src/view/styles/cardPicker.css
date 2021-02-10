@@ -1,7 +1,6 @@
 .CPContainer {
   height: 100%;
   width: 100%;
-  /* background-color: violet; */
   display: flex;
   justify-content: center;
   margin-left: auto;

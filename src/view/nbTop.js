@@ -1,4 +1,3 @@
-// the top navigation bar for the app
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -6,7 +5,6 @@ import { Button } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
-// styling for regular grid container and grid items
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -101,20 +99,15 @@ const DraftOptions = () => {
           </Grid>
         </div>
       </div>
-      {/* end of topNavDiv */}
       <div className="gameSection">
         <div className="progressArea"></div>
         <div className="gameArea"></div>
       </div>
     </div>
-
-    //start of game area
   );
 };
 
-// simple line to get started
 function NavbarTop() {
-  //   return DraftOptions();
   return DraftOptions();
 }
 

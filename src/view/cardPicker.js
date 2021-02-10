@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./styles/cardPicker.css";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
@@ -11,7 +11,6 @@ import { connect } from "react-redux";
 import { Typography } from "@material-ui/core";
 
 const selectCurrentPack = (state) => state.gameBoosters[0];
-
 const selectAiOne = (state) => state.playerOnePicks;
 
 const mapDispatchToProps = (dispatch) => ({
@@ -43,7 +42,6 @@ const CardPicker = (props) => {
 
   const draftedCards = useSelector(selectAiOne);
 
-  const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
   const dispatch = useDispatch();
   const f = props.pickDisplayCard;

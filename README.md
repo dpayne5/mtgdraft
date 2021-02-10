@@ -1,10 +1,9 @@
 # MTG DRAFT
 
-This is a small project application. Eventually I would like to support drafting against
-an AI that plays a basic strategy for sets in standard rotation.
+This is a small project application. Currently only M21, THB, and ZNR are available to draft. Eventually I'd like to support all sets on standard rotation.
 
-To run this project locally, run the following command from the directory:
+To run this project locally, run the following command from your directory:
 
 ### `npm start`
 
-Feedback/suggestions are always welcome, you can reach me at dpayne5@berkeley.edu
+Feedback, suggestions, and bug reports are always welcome, you can reach me at dpayne5@berkeley.edu

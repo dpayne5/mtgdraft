@@ -17,12 +17,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import {
-  readcosts,
-  testOracle,
-  scrymf_cost,
-  oracleCosts,
-} from "../gameFunctions/manaconversions.js";
+import { readcosts, oracleCosts } from "../gameFunctions/manaconversions.js";
 
 <link
   href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.min.css"
@@ -59,7 +54,7 @@ const mbMetaInfo = (mainboard) => {
     } else if (!card.type.includes("Land")) {
       spells += card.count;
     } else {
-      let a = 1; //just a do nothing line till i get this figured out correctly
+      let a = 1;
     }
     switch (card.cmc) {
       case 1:
@@ -193,8 +188,6 @@ const countCards = (mainboard) => {
   return c;
 };
 
-function convertManaSymbols() {}
-
 const getMainBoard = (state) => state.mainboard;
 const getSideBoard = (state) => state.sideboard;
 
@@ -208,7 +201,6 @@ const PickedViewer = (props) => {
 
   const classes = useStyles();
 
-  let isval = scrymf_cost("1");
   let [
     numCreatures,
     numSpells,
