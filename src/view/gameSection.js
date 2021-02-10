@@ -11,6 +11,11 @@ import Cp from "./cardPicker.js";
 import PickedViewer from "./pickedViewer.js";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -104,13 +109,55 @@ const GameSection = (props) => {
   };
 
   const [cardsetlink, setCardSetLink] = React.useState("");
+  const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div>
       <div className="newtopbar">
+        <div className="infoContainer">
+          <Button
+            variant="outlined"
+            color="default"
+            disableElevation
+            onClick={handleClickOpen}
+          >
+            How To Play
+          </Button>
+        </div>
         <h1 style={{ textAlign: "center" }}>MTG Draft: A Project App</h1>
+
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Welcome!"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Draft is a popular and competitive format for Magic: The
+              Gathering! Players choose one card per pack before constructing a
+              deck with a minimum of 40 cards. The purpose of this app is to let
+              you get free practice against simulated opponents playing basic
+              strategy. Click any of the set names to get started.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <Grid container>
           <Grid item xs={4} align="center">
             <Button
@@ -123,12 +170,6 @@ const GameSection = (props) => {
                     "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints",
                 });
               }}
-              // dispatch({
-              //   type: "gamecards/generateSets",
-              //   payload:
-              //     "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints",
-              // })
-              //} //handleSetSelection(0)
             >
               Zendikar Rising
             </Button>

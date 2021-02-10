@@ -6,8 +6,15 @@
   flex-direction: column;
 }
 
+.infoContainer {
+  width: 10%;
+  padding-top: 10px;
+  margin-left: auto;
+  margin-right: 0;
+}
+
 .newtopbar {
-  width: 98%;
+  width: 95%;
   margin: auto;
 
   display: flex;
