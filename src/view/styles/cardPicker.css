@@ -2,8 +2,11 @@
   height: 100%;
   width: 100%;
   /* background-color: violet; */
+  display: flex;
+  justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  margin: auto;
 }
 
 .pickerGrid {

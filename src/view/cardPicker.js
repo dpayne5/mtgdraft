@@ -43,8 +43,16 @@ const CardPicker = (props) => {
   const f = props.pickDisplayCard;
 
   return (
-    <div className="CPContainer" id="cpfield">
-      <Grid container className={classes.root} justify="center" spacing={1}>
+    <div className="CPContainer">
+      <Grid
+        container
+        className={classes.root}
+        align="center"
+        justify="center"
+        alignItems="center"
+        width="95%"
+        spacing={1}
+      >
         {displayPack.map((val, index) => (
           <Grid item sm={2}>
             <ButtonBase
