@@ -3,12 +3,16 @@ import "./styles/cardPicker.css";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
+import { Typography } from "@material-ui/core";
 
 const selectCurrentPack = (state) => state.gameBoosters[0];
+
+const selectAiOne = (state) => state.playerOnePicks;
 
 const mapDispatchToProps = (dispatch) => ({
   pickDisplayCard(index) {
@@ -37,10 +41,32 @@ const CardPicker = (props) => {
 
   const displayPack = useSelector(selectCurrentPack);
 
+  const draftedCards = useSelector(selectAiOne);
+
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
   const dispatch = useDispatch();
   const f = props.pickDisplayCard;
+
+  if (draftedCards.length == 45) {
+    return (
+      <div className="CPContainer">
+        <Typography component="div" color="textSecondary">
+          <Box
+            fontWeight="fontWeightBold"
+            fontSize="h5.fontSize"
+            m={1}
+            textAlign="center"
+          >
+            <p>Draft Complete!</p>
+            <p>
+              Organize your deck in the Current Picks tab or start a new Draft.
+            </p>
+          </Box>
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <div className="CPContainer">

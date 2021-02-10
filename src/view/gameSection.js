@@ -146,9 +146,12 @@ const GameSection = (props) => {
             <DialogContentText id="alert-dialog-description">
               Draft is a popular and competitive format for Magic: The
               Gathering! Players choose one card per pack before constructing a
-              deck with a minimum of 40 cards. The purpose of this app is to let
-              you get free practice against simulated opponents playing basic
-              strategy. Click any of the set names to get started.
+              deck with a minimum of 40 cards.
+              <p>
+                The purpose of this app is to let you get free practice against
+                simulated opponents playing basic strategy. Click any of the set
+                names to get started.
+              </p>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
