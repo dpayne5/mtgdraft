@@ -77,13 +77,18 @@ export default function appReducer(state = initialStateC, action) {
     case "gamecards/JSONLOADED": {
       let data = "initial data ";
       let _setRatings = getRatings(action.payload[0]["set"]);
-      console.log(_setRatings);
+
+      for (let c of action.payload) {
+        console.log(c.name);
+      }
 
       let _commons = partitionSetIntoCommons(action.payload);
       let _uncommons = partitionSetIntoUncommons(action.payload);
       let _rares = partitionSetIntoRares(action.payload);
       let _mythics = partitionSetIntoMythics(action.payload);
       let _lands = partitionBasicLands(action.payload);
+      console.log("LANDS ARE");
+      console.log(_lands);
       return {
         ...state,
         lands: _lands,
@@ -115,7 +120,6 @@ export default function appReducer(state = initialStateC, action) {
     case "gamecards/assignRatings": {
       console.log("inside workaround");
       let ratings = JSON.parse(action.payload);
-      console.log(ratings);
       // console.log(action.payload);
       return { ...state, currentSetRatings: ratings };
     }

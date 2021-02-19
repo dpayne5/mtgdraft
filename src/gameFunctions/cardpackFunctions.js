@@ -142,33 +142,26 @@ export function AIRemovePick(pack, item) {
   // return cpy.filter((id) => id !== itemID);
 }
 
+const isLand = (card) => {
+  return (
+    card.name == "Plains" ||
+    card.name == "Island" ||
+    card.name == "Mountain" ||
+    card.name == "Swamp" ||
+    card.name == "Forest" ||
+    card.type.includes("Basic Snow Land")
+  );
+};
+
 export function partitionBasicLands(set) {
   let basiclands = [...set];
-
-  const isLand = (card) => {
-    return (
-      card.name == "Plains" ||
-      card.name == "Island" ||
-      card.name == "Mountain" ||
-      card.name == "Swamp" ||
-      card.name == "Forest"
-    );
-  };
 
   return basiclands.filter((card) => isLand(card));
 }
 
 export function partitionSetIntoCommons(set) {
   let commons = [...set];
-  const isLand = (card) => {
-    return (
-      card.name == "Plains" ||
-      card.name == "Island" ||
-      card.name == "Mountain" ||
-      card.name == "Swamp" ||
-      card.name == "Forest"
-    );
-  };
+
   return commons.filter((card) => card.rarity === "common" && !isLand(card));
 }
 

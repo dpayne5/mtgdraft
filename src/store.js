@@ -1,6 +1,7 @@
 import { createStore } from "redux";
 import { applyMiddleware } from "redux";
 import rootReducer from "./reducer";
+import { getCards } from "./slsCards";
 
 async function F(data) {
   console.log("inside of F()");
@@ -115,16 +116,22 @@ const parseCards = (data) => {
 
 const fetchMTGJSON = (storeAPI) => (next) => (action) => {
   if (action.type === "gamecards/generateSets") {
+    //call to serverless API goes here
+    let test = getCards(action.payload).then((result) =>
+      storeAPI.dispatch({ type: "gamecards/JSONLOADED", payload: result })
+    );
+
     // Make an API call to fetch todos from the server
-    let data = fetch(action.payload)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (d) {
-        let bg = Promise.resolve(F(d)).then((result) =>
-          storeAPI.dispatch({ type: "gamecards/JSONLOADED", payload: result })
-        );
-      });
+
+    // let data = fetch(action.payload)
+    //   .then(function (response) {
+    //     return response.json();
+    //   })
+    //   .then(function (d) {
+    //     let bg = Promise.resolve(F(d)).then((result) =>
+    //       storeAPI.dispatch({ type: "gamecards/JSONLOADED", payload: result })
+    //     );
+    //   });
   }
 
   return next(action);

@@ -46,6 +46,8 @@ const CardPicker = (props) => {
   const dispatch = useDispatch();
   const f = props.pickDisplayCard;
 
+  const urlPath = "https://card-images-dp.s3.us-east-2.amazonaws.com/";
+
   if (draftedCards.length == 45) {
     return (
       <div className="CPContainer">

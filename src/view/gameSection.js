@@ -163,8 +163,7 @@ const GameSection = (props) => {
               onClick={() => {
                 dispatch({
                   type: "gamecards/generateSets",
-                  payload:
-                    "https://api.scryfall.com/cards/search?order=set&q=e%3Aznr&unique=prints",
+                  payload: "znr",
                 });
               }}
             >
@@ -178,12 +177,11 @@ const GameSection = (props) => {
               onClick={() =>
                 dispatch({
                   type: "gamecards/generateSets",
-                  payload:
-                    "https://api.scryfall.com/cards/search?order=set&q=e%3Am21&unique=prints",
+                  payload: "khm",
                 })
               }
             >
-              Core 2021
+              Kaldheim
             </Button>
           </Grid>
           <Grid
@@ -193,8 +191,7 @@ const GameSection = (props) => {
             onClick={() =>
               dispatch({
                 type: "gamecards/generateSets",
-                payload:
-                  "https://api.scryfall.com/cards/search?order=set&q=e%3Athb&unique=prints",
+                payload: "thb",
               })
             }
           >
