@@ -140,7 +140,8 @@ const GameSection = (props) => {
             <DialogContentText id="alert-dialog-description">
               Draft is a popular and competitive format for Magic: The
               Gathering! Players choose one card per pack before constructing a
-              deck with a minimum of 40 cards.
+              deck with a minimum of 40 cards (27 cards you will pick and 13
+              lands provided by the event host).
               <p>
                 The purpose of this app is to let you get free practice against
                 simulated opponents playing basic strategy. Click any of the set
