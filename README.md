@@ -2,7 +2,7 @@
 
 This is a small project application. Currently only M21, THB, and ZNR are available to draft. Eventually I'd like to support all sets on standard rotation.
 
-To run this project locally, run the following command from your directory:
+To run this project locally, run the following command from the main directory:
 
 ### `npm start`
 
