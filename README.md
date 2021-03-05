@@ -5,10 +5,10 @@ This is a small project application that simulates the draft game mode for [Magi
 The AI plays a basic strategy, valuing each card of a pack at `cardRating + (cardColor * colorWeight)`
 
 The main screens are the cardPicker (which represents the draft):
-![CardPicker](/cardPickerExample.png)
+![CardPicker](/public/cardPickerExample.png)
 
 and the pickedViewer, which contains summary statistics and allows you to place cards in main or sideboard:
-![PickedViewer](/pickedViewerExample.png)
+![PickedViewer](/public/pickedViewerExample.png)
 
 To run this project locally, run the following command from the main directory:
 
