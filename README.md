@@ -2,7 +2,7 @@
 
 This is a small project application that simulates the draft game mode for [Magic: The Gathering](https://en.wikipedia.org/wiki/Magic:_The_Gathering). Currently only three sets are available to draft - Zendikar Rising, Kaldheim, and Theros Beyond Death. These are referenced in the source code with their three letter set codes (ZNR, KLD, THB). Card ratings are taken from [Aetherhub](https://aetherhub.com/).
 
-The AI plays a basic strategy, valuing each card of a pack at `cardRating + (cardColor \* colorWeight)`
+The AI plays a basic strategy, valuing each card of a pack at `cardRating + (cardColor * colorWeight)`
 
 To run this project locally, run the following command from the main directory:
 
