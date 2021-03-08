@@ -87,8 +87,15 @@ const CardPicker = (props) => {
               }
               focusRipple
             >
+              {/* https://card-images-dp.s3.us-east-2.amazonaws.com/79126.jpeg */}
               <Paper className={classes.paper}>
-                <img src={val.imagelink} width="190" height="311"></img>
+                <img
+                  src={`https://mtgcards-dpw.s3-us-west-1.amazonaws.com/${val.id}.jpeg`}
+                  width="190"
+                  height="311"
+                ></img>
+
+                {/* <img src={val.imagelink} width="190" height="311"></img> */}
               </Paper>
             </ButtonBase>
           </Grid>
