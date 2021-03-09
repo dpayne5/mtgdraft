@@ -21,6 +21,6 @@ export async function submitDraft(playercards) {
 }
 
 async function putdraft(setname) {
-  let result = API.post("mtgAPI", "submitdraft", { body: setname });
+  let result = API.put("mtgAPI", "submitdraft", { body: setname });
   return result;
 }

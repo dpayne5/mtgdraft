@@ -35,6 +35,7 @@ const initialStateC = {
   rares: null,
   mythics: null,
   currentSetRatings: {},
+  submitted: false,
 };
 
 async function getRatings(setName) {
@@ -74,6 +75,12 @@ const findCardIndex = (board, card) => {
 
 export default function appReducer(state = initialStateC, action) {
   switch (action.type) {
+    case "gamecards/submit": {
+      return {
+        ...state,
+        submitted: true,
+      };
+    }
     case "gamecards/JSONLOADED": {
       let data = "initial data ";
       let _setRatings = getRatings(action.payload[0]["set"]);
@@ -114,6 +121,7 @@ export default function appReducer(state = initialStateC, action) {
         playerFivePicks: [],
         playerSixPicks: [],
         playerSevenPicks: [],
+        submitted: false,
       };
     }
 

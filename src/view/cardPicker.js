@@ -14,6 +14,7 @@ import { submitDraft } from "../slsPut.js";
 const selectCurrentPack = (state) => state.gameBoosters[0];
 const selectAiOne = (state) => state.playerOnePicks;
 const selectMainBoard = (state) => state.mainboard;
+const selectSubmitted = (state) => state.submitted;
 
 const mapDispatchToProps = (dispatch) => ({
   pickDisplayCard(index) {
@@ -51,9 +52,13 @@ const CardPicker = (props) => {
   const maincards = useSelector(selectMainBoard);
 
   const urlPath = "https://card-images-dp.s3.us-east-2.amazonaws.com/";
+  const isSubmitted = useSelector(selectSubmitted);
 
   if (draftedCards.length == 45) {
-    submitDraft(maincards);
+    if (!isSubmitted) {
+      submitDraft(maincards);
+      dispatch({ type: "gamecards/submit" });
+    }
     return (
       <div className="CPContainer">
         <Typography component="div" color="textSecondary">
