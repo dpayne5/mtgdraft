@@ -9,9 +9,11 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { Typography } from "@material-ui/core";
+import { submitDraft } from "../slsPut.js";
 
 const selectCurrentPack = (state) => state.gameBoosters[0];
 const selectAiOne = (state) => state.playerOnePicks;
+const selectMainBoard = (state) => state.mainboard;
 
 const mapDispatchToProps = (dispatch) => ({
   pickDisplayCard(index) {
@@ -46,9 +48,12 @@ const CardPicker = (props) => {
   const dispatch = useDispatch();
   const f = props.pickDisplayCard;
 
+  const maincards = useSelector(selectMainBoard);
+
   const urlPath = "https://card-images-dp.s3.us-east-2.amazonaws.com/";
 
   if (draftedCards.length == 45) {
+    submitDraft(maincards);
     return (
       <div className="CPContainer">
         <Typography component="div" color="textSecondary">
